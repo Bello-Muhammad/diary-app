@@ -3,9 +3,11 @@ const { findOneUser } = require('../diary/user/lib/findOneUser');
 
 module.exports.auth = async (req, res, next) => {
     try {
+
+        const jwtSecret = process.env.JWT_SECRET;
         
         const token = req.headers.authorization.replace('Bearer ', '')
-        const decoded = jwt.verify(token, 'diarysecrettokenauthentication');
+        const decoded = jwt.verify(token, jwtSecret, { expiresIn: process.env.JWT_LIFETIME });
         const id = parseInt(decoded.userId);
         const body = { id }
         const userData = await findOneUser(body);
