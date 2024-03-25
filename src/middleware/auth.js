@@ -7,7 +7,7 @@ module.exports.auth = async (req, res, next) => {
         const jwtSecret = process.env.JWT_SECRET;
         
         const token = req.headers.authorization.replace('Bearer ', '')
-        const decoded = jwt.verify(token, jwtSecret, { expiresIn: process.env.JWT_LIFETIME });
+        const decoded = jwt.verify(token, jwtSecret);
         const id = parseInt(decoded.userId);
         const body = { id }
         const userData = await findOneUser(body);
